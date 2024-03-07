@@ -89,10 +89,12 @@ const MapComponent: React.FC = () => {
     });
 
     // Event listener for the 'drawend' event, triggered when drawing ends
-    draw.on('drawend', (event) => {
-      const feature = event.feature; // Get the drawn feature
-      const geometry = feature.getGeometry(); // Get the geometry of the feature
-
+// Event listener for the 'drawend' event, triggered when drawing ends
+draw.on('drawend', (event) => {
+  const feature = event.feature; // Get the drawn feature
+  if (feature) {
+    const geometry = feature.getGeometry(); // Get the geometry of the feature
+    if (geometry) {
       let newMeasurement: { value: number | null, unit: string };
 
       // Calculate measurement based on draw type
@@ -108,7 +110,10 @@ const MapComponent: React.FC = () => {
 
       // Update measurement state with the calculated value and unit
       setMeasurement(newMeasurement);
-    });
+    }
+  }
+});
+
 
     // Add the draw interaction to the map
     map.addInteraction(draw);
